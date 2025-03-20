@@ -1,15 +1,23 @@
-import { Routes, Route } from "react-router-dom";
-import ClientRoutes from "./ClientRoutes";
-import AdminRoutes from "./AdminRoutes";
-import React from "react";
-import Login from "~/features/Login";
+import { Routes, Route } from 'react-router-dom'
+import React from 'react'
+import Layout from '~/components/Layout'
+import Dashboard from '~/pages/Dashboard'
+import Login from '~/pages/Login'
+import ProtectedRoute from './ProtectedRoutes'
+
+const routes = [{ path: '', content: <Dashboard /> }]
 
 const AppRoutes = () => (
   <Routes>
-    <Route path="/login" element={<Login />} />
-    <Route path="/*" element={<ClientRoutes />} />
-    <Route path="/admin/*" element={<AdminRoutes />} />
-  </Routes>
-);
+    <Route path='/login' element={<Login />} />
 
-export default AppRoutes;
+    {/* Protected Routes */}
+    <Route element={<ProtectedRoute />}>
+      {routes.map(({ path, content }) => (
+        <Route key={path} path={`/${path}`} element={<Layout content={content} />} />
+      ))}
+    </Route>
+  </Routes>
+)
+
+export default AppRoutes
