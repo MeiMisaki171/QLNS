@@ -39,8 +39,7 @@ const initializeHttp = async () => {
     http.defaults.baseURL = config.baseURL // Thiết lập baseURL từ config
   } else {
     // Nếu không có config, bạn có thể đặt baseURL mặc định
-    // http.defaults.baseURL = 'http://10.15.68.204:8181/Tcs4Api'
-    http.defaults.baseURL = 'http://localhost:8080/tcs-api'; // BE domain
+    http.defaults.baseURL = 'http://localhost:8080/tcs-api' // BE domain
   }
 }
 
