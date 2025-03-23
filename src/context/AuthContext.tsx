@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-
+import { toast } from 'react-toastify'
 interface User {
   username: string
   role: 'admin' | 'client'
@@ -15,12 +15,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
-    const storedUser = localStorage.getItem('user')
+    const storedUser = sessionStorage.getItem('user')
     return storedUser ? JSON.parse(storedUser) : null
   })
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user))
+    sessionStorage.setItem('user', JSON.stringify(user))
   }, [user])
 
   const login = (username: string, password: string) => {
@@ -31,21 +31,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       loggedInUser = { username, role: 'admin' }
     } else if (username === 'client' && password === 'client123') {
       loggedInUser = { username, role: 'client' }
+    } else {
+      loggedInUser = null
     }
 
     if (loggedInUser) {
       setUser(loggedInUser)
+      toast.success('Đăng nhập thành công')
     } else {
-      alert('Sai tài khoản hoặc mật khẩu!')
+      toast.error('Tài khoản hoặc mật khẩu không chính xác')
     }
   }
 
   const logout = () => {
     setUser(null)
-    localStorage.removeItem('user')
+    sessionStorage.removeItem('user')
   }
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>
+  return (
+    <>
+      <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>
+    </>
+  )
 }
 
 export const useAuth = () => {

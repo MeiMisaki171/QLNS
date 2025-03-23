@@ -5,7 +5,7 @@ import Dashboard from '~/pages/Dashboard'
 import Login from '~/pages/Login'
 import ProtectedRoute from './ProtectedRoutes'
 
-const routes = [{ path: '', content: <Dashboard /> }]
+const routes = [{ path: '/', content: <Dashboard /> }]
 
 const AppRoutes = () => (
   <Routes>
