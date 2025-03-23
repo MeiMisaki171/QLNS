@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 interface User {
   username: string
-  role: 'admin' | 'client'
+  role: 'admin' | 'user'
 }
 
 interface AuthContextType {
@@ -29,8 +29,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     //Call api và check authen tại đây
     if (username === 'admin' && password === 'admin123') {
       loggedInUser = { username, role: 'admin' }
-    } else if (username === 'client' && password === 'client123') {
-      loggedInUser = { username, role: 'client' }
+    } else if (username === 'user' && password === '1') {
+      loggedInUser = { username, role: 'user' }
     } else {
       loggedInUser = null
     }

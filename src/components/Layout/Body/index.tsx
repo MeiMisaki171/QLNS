@@ -1,12 +1,13 @@
 import React from 'react'
 import Sidebar from './Sidebar'
 import Content from './Content'
+import ContentWithNavbar from './ContentWithNavbar'
 
-const Body = ({ content }: { content: React.ReactNode }) => {
+const Body = ({ content, hideNavbar }: { content: React.ReactNode; hideNavbar?: boolean }) => {
   return (
     <>
       <Sidebar />
-      <Content>{content}</Content>
+      {hideNavbar ? <Content>{content}</Content> : <ContentWithNavbar>{content}</ContentWithNavbar>}
     </>
   )
 }

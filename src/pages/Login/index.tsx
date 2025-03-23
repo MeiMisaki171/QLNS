@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '~/context/AuthContext'
@@ -6,6 +6,7 @@ import { ILoginForm } from '~/types/ILoginForm'
 import bgLogin from '~/assets/img/bg-login.jpeg'
 import { Bounce, toast, ToastContainer } from 'react-toastify'
 import logoIcon from '~/assets/img/logoIcon.jpg'
+import { FaRegEye } from 'react-icons/fa6'
 
 const Login: React.FC = () => {
   const { login } = useAuth()
@@ -26,6 +27,8 @@ const Login: React.FC = () => {
       toast.error('Sai tài khoản hoặc mật khẩu!')
     }
   }
+
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <div className='grid grid-cols-12 gap-3 h-screen bg-white'>
@@ -48,12 +51,12 @@ const Login: React.FC = () => {
           {errors.userName && <p className='text-red-500 text-sm'>{errors.userName.message}</p>}
         </div>
 
-        <div className='flex flex-col w-full pb-5'>
+        <div className='flex flex-col w-full pb-5 relative'>
           <label htmlFor='password' className='pt-2 pb-1'>
             Mật khẩu
           </label>
           <input
-            type='password'
+            type={!showPassword ? 'password' : 'text'}
             id='password'
             autoComplete='false'
             {...register('password', {
@@ -61,6 +64,10 @@ const Login: React.FC = () => {
               // minLength: { value: 6, message: 'Mật khẩu ít nhất 6 ký tự!' }
             })}
             className='block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-600'
+          />
+          <FaRegEye
+            className='flex absolute right-3 top-12 cursor-pointer'
+            onClick={() => setShowPassword((prev) => !prev)}
           />
           {errors.password && <p className='text-red-500 text-sm'>{errors.password.message}</p>}
         </div>

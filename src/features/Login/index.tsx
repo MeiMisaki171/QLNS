@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { FaRegEye } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '~/context/AuthContext'
 
@@ -7,11 +8,12 @@ const Login: React.FC = () => {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
     if (user && user?.role === 'admin') {
       navigate('/admin')
-    } else if (user && user?.role === 'client') {
+    } else if (user && user?.role === 'user') {
       navigate('/')
     }
   }, [user, navigate])
@@ -22,7 +24,7 @@ const Login: React.FC = () => {
 
     if (user?.role === 'admin') {
       navigate('/admin')
-    } else if (user?.role === 'client') {
+    } else if (user?.role === 'user') {
       navigate('/')
     }
   }
@@ -38,13 +40,16 @@ const Login: React.FC = () => {
           onChange={(e) => setUsername(e.target.value)}
           className='border p-2 mb-2 w-full'
         />
-        <input
-          type='password'
-          placeholder='Password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className='border p-2 mb-2 w-full'
-        />
+        <div className='relative'>
+          <input
+            type={showPassword ? 'password' : 'text'}
+            placeholder='Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className='border p-2 mb-2 w-full'
+          />
+          <FaRegEye className='flex absolute right-0 top-0' onClick={() => setShowPassword((prev) => !prev)} />
+        </div>
         <button type='submit' className='bg-blue-500 text-white px-4 py-2 rounded w-full'>
           Đăng nhập
         </button>

@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { PiBell, PiUser, PiSignOut } from 'react-icons/pi'
 import { BiCog } from 'react-icons/bi'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { MenuData } from '../Body/Sidebar/menu'
+import { useAuth } from '~/context/AuthContext'
 const Header = () => {
   const location = useLocation()
   const [activeTitle, setActiveTitle] = useState<string>('')
+  const navigate = useNavigate()
+
+  const { logout } = useAuth()
+
+  const handleLogut = (e: React.FormEvent) => {
+    logout()
+    navigate('/login')
+  }
 
   useEffect(() => {
     let foundTitle = ''
@@ -31,7 +40,7 @@ const Header = () => {
         <PiBell className='text-3xl mr-3 cursor-pointer' />
         <BiCog className='text-3xl mr-3 cursor-pointer' />
         <PiUser className='text-3xl mr-3 cursor-pointer' />
-        <PiSignOut className='text-3xl cursor-pointer' />
+        <PiSignOut className='text-3xl cursor-pointer' onClick={handleLogut} />
       </div>
     </div>
   )
